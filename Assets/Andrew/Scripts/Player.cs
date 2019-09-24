@@ -18,11 +18,6 @@ public class Player : MonoBehaviour
     private float currentJumpHeight;
     private float currentSpeed;
 
-    public float DashDistance = 5f;
-    public Vector3 Drag;
-
-    private Vector3 velocity;
-
     // Functions
     private void Start()
     {
@@ -44,11 +39,15 @@ public class Player : MonoBehaviour
         // Rotate direction to Player's Direction
         inputDir = transform.TransformDirection(inputDir);
         // If input exceeds length of 1
+
+        ControllPlayer();
+
         if (inputDir.magnitude > 1f)
         {
             // Normalize it to 1f!
             inputDir.Normalize();
         }
+        //transform.Translate(movement * walkSpeed * Time.deltaTime, Space.World);
 
         // If running
         if (inputRun)
@@ -61,7 +60,7 @@ public class Player : MonoBehaviour
             currentSpeed = walkSpeed;
         }
 
-        Move(inputDir.x, inputDir.z, currentSpeed);
+        // Move(inputDir.x, inputDir.z, currentSpeed);
 
         // If is Grounded
         if (controller.isGrounded)
@@ -85,25 +84,22 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Dash"))
-        {
-            Debug.Log("Dash");
-            velocity += Vector3.Scale(transform.forward, DashDistance * new Vector3((Mathf.Log(1f / (Time.deltaTime * Drag.x + 1)) / -Time.deltaTime), 0, (Mathf.Log(1f / (Time.deltaTime * Drag.z + 1)) / -Time.deltaTime)));
-        }
-
         motion.y += gravity * Time.deltaTime;
         controller.Move(motion * Time.deltaTime);
-        /*
-        velocity.y += gravity * Time.deltaTime;
-
-        velocity.x /= 1 + Drag.x * Time.deltaTime;
-        velocity.y /= 1 + Drag.y * Time.deltaTime;
-        velocity.z /= 1 + Drag.z * Time.deltaTime;
-
-        controller.Move(velocity * Time.deltaTime);
-        */
     }
-    private void Move(float inputH, float inputV, float speed)
+    void ControllPlayer()
+    {
+        float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        float moveVertical = Input.GetAxisRaw("Vertical");
+
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.30F);
+
+
+        transform.Translate(movement * walkSpeed * Time.deltaTime, Space.World);
+
+    }
+    /*private void Move(float inputH, float inputV, float speed)
     {
         Vector3 direction = new Vector3(inputH, 0f, inputV);
         motion.x = direction.x * speed;
@@ -124,16 +120,16 @@ public class Player : MonoBehaviour
     public void Run(float inputH, float inputV)
     {
         Move(inputH, inputV, runSpeed);
-    }
+    }*/
     public void Jump(float height)
     {
         isJumping = true; // We are jumping!
         currentJumpHeight = height;
     }
-    public void Dash()
+    /*public void Dash()
     {
         StartCoroutine(SpeedBoost(dashSpeed, walkSpeed, dashTime));
-    }
+    }*/
 
     /*private void UpdatePlayerMovement()
     {
