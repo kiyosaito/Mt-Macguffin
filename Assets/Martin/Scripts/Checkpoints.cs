@@ -7,7 +7,7 @@ public class Checkpoints : Respawning
     
     private void OnTriggerEnter(Collider other)
     {
-        playerGhost.transform.position = gameObject.transform.position;
+        playerGhost = gameObject.transform.position;
         gameObject.SetActive(false);
     }
 }

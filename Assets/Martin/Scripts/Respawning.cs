@@ -6,12 +6,12 @@ public class Respawning : MonoBehaviour
 {
 
     public GameObject player;
-    public GameObject playerGhost;
+    public Vector3 playerGhost;
 
     private void Start()
     {
-        playerGhost = GameObject.FindGameObjectWithTag("RespawnPoint");
+        playerGhost = GameObject.FindGameObjectWithTag("RespawnPoint").transform.position;
         player = GameObject.FindGameObjectWithTag("Player");
-        playerGhost.transform.position = player.transform.position;
     }
+    
 }

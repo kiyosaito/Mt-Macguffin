@@ -18,7 +18,7 @@ public class KillZone : Respawning
     }
     void RespawnPlayer()
     {
-        player.transform.position = playerGhost.transform.position;
+        player.transform.position = playerGhost;
     }
     void DisablePlayer()
     {
