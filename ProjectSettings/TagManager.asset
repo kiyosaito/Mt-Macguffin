@@ -6,6 +6,7 @@ TagManager:
   tags:
   - KillZone
   - RespawnPoint
+  - Menu
   layers:
   - Default
   - TransparentFX
