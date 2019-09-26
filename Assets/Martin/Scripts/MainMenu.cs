@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     public AudioMixer audioMixer;
     public TMPro.TMP_Dropdown resDropdown;
     private Resolution[] res;
+    private int sceneToContinue;
     #endregion
 
     private void Start()
@@ -28,7 +29,7 @@ public class MainMenu : MonoBehaviour
         {
             string option = res[i].width + "x" + res[i].height;
             resOptions.Add(option);
-            if (res[i].width==Screen.currentResolution.width&& res[i].height == Screen.currentResolution.height)
+            if (res[i].width == Screen.currentResolution.width && res[i].height == Screen.currentResolution.height)
             {
                 curResIndex = i;
             }
@@ -56,15 +57,29 @@ public class MainMenu : MonoBehaviour
 
     public void OptionsMenuSetResolution(int resIndex)
     {
-        Resolution resolution  = res[resIndex];
+        Resolution resolution = res[resIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
     #endregion
 
     #region Main Menu
-    public void MainMenuePlayGame()
+    public void MainMenuNewGame()
     {
         SceneManager.LoadScene(1);
+        SaveLoad.ResetSaves();
+    }
+
+    public void MainMenuLoadLevel()
+    {
+        sceneToContinue = PlayerPrefs.GetInt("SavedScene");
+        if (sceneToContinue !=0)
+        {
+            SceneManager.LoadScene(sceneToContinue);
+        }
+        else
+        {
+            return;
+        }
     }
 
     public void MainMenuQuit()

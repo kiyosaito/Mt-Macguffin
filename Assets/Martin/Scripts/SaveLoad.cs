@@ -10,15 +10,15 @@ public class SaveLoad : MonoBehaviour
     public static void SaveCheckpoint(PauseMenu saveCheckpoint)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/saves/";
-        FileStream fileStream = new FileStream(path + ".txt", FileMode.Create);
+        string path = Application.persistentDataPath + "/Saves/" + "LastCheckpoint.bat";
+        FileStream stream = new FileStream(path, FileMode.Create);
         DataToSave data = new DataToSave(saveCheckpoint);
-        formatter.Serialize(fileStream, data);
-        fileStream.Close();
+        formatter.Serialize(stream, data);
+        stream.Close();
     }
     public static DataToSave LoadCheckPoint()
     {
-        string path = Application.persistentDataPath + "/saves/";
+        string path = Application.persistentDataPath + "/Saves/"+"LastCheckpoint.bat";
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -36,12 +36,12 @@ public class SaveLoad : MonoBehaviour
     }
     public static bool SaveExists()
     {
-        string path = Application.persistentDataPath + "/saves/"+".txt";
+        string path = Application.persistentDataPath + "/Saves/" + "LastCheckpoint.bat";
         return File.Exists(path);
     }
     public static void ResetSaves()
     {
-        string path = Application.persistentDataPath + "/saves/";
+        string path = Application.persistentDataPath + "/Saves/" + "LastCheckpoint.bat";
         DirectoryInfo directory = new DirectoryInfo(path);
         directory.Delete(true);
         Directory.CreateDirectory(path);

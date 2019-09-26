@@ -1,17 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenu;
-    public Respawning checkpoint;
+    private GameObject pauseMenu;
+    private Vector3 savePosition;
     public float x, y, z;
+    private Player respawnPoint;
+    private GameObject player;
+    public static bool isPaused = false;
+    private int currentSceneIndex;
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         pauseMenu = GameObject.FindGameObjectWithTag("Menu");
         pauseMenu.SetActive(false);
+        respawnPoint = player.GetComponent<Player>();
     }
     private void Update()
     {
@@ -19,9 +26,10 @@ public class PauseMenu : MonoBehaviour
     }
     public void Save()
     {
-        x = checkpoint.playerGhost.x;
-        y = checkpoint.playerGhost.y;
-        z = checkpoint.playerGhost.z;
+        x = respawnPoint.playerGhost.x;
+        y = respawnPoint.playerGhost.y;
+        z = respawnPoint.playerGhost.z;
+        SaveLoad.SaveCheckpoint(this);
     }
     public void Load()
     {
@@ -29,7 +37,8 @@ public class PauseMenu : MonoBehaviour
         x = data.x;
         y = data.y;
         z = data.z;
-        checkpoint.playerGhost = new Vector3(x, y, z);
+        respawnPoint.playerGhost = new Vector3(x, y, z);
+        player.transform.position = respawnPoint.playerGhost;
     }
     public void DeleteAllSaves()
     {
@@ -38,13 +47,33 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
-        if (pauseMenu.activeSelf == true)
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
-            if (Input.GetKeyUp(KeyCode.Escape))
+            if (isPaused)
             {
-
+                pauseMenu.SetActive(false);
+                Time.timeScale = 1f;
+                isPaused = false;
+            }
+            else
+            {
+                pauseMenu.SetActive(true);
+                Time.timeScale = 0f;
+                isPaused = true;
             }
         }
+    }
+    public void PauseQuit()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        PlayerPrefs.SetInt("SavedScene", currentSceneIndex);
+        Application.Quit();
+    }
+    public void MainMenu()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        PlayerPrefs.SetInt("SavedScene", currentSceneIndex);
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

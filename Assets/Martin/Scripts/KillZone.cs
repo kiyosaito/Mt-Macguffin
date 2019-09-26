@@ -3,22 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KillZone : Respawning
+public class KillZone : MonoBehaviour
 {
-    public Player playerScript;
+    private Player playerScript, respawnPoint;
+    private GameObject player;
+
     private void Awake()
     {
-        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerScript = player.GetComponent<Player>();
     }
     private void OnTriggerEnter(Collider other)
     {
-        DisablePlayer();
-        Invoke("RespawnPlayer", 1);
-        Invoke("EnablePlayer", 2);
+        if (other.gameObject.CompareTag("Player"))
+        {
+            DisablePlayer();
+            Invoke("RespawnPlayer", 1);
+            Invoke("EnablePlayer", 2);
+        }
     }
     void RespawnPlayer()
     {
-        player.transform.position = playerGhost;
+        player.transform.position = playerScript.playerGhost;
     }
     void DisablePlayer()
     {
@@ -28,4 +34,5 @@ public class KillZone : Respawning
     {
         playerScript.enabled = true;
     }
+    
 }

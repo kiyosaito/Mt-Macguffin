@@ -18,7 +18,21 @@ public class Player : MonoBehaviour
     private float currentJumpHeight;
     private float currentSpeed;
 
+
+
+
     // Functions
+    #region Respawn Martin's Code
+    public Vector3 playerGhost;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("CheckPoint"))
+        {
+            playerGhost = gameObject.transform.position;
+            other.gameObject.SetActive(false);
+        }
+    }
+    #endregion
     private void Start()
     {
         controller = GetComponent<CharacterController>();
