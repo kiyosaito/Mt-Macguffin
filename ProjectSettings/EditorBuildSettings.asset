@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Martin/Scenes/MainMenu.unity
     guid: feacf11ee1bfa8143992fe39506e4432
   - enabled: 1
-    path: Assets/Max/Scenes/Level2.unity
+    path: Assets/Max/Scenes/TutorialBeach.unity
     guid: 0f357003b47a69149a02a9dc5e41b2ab
   - enabled: 1
     path: Assets/Martin/Scenes/Martin's Test Scene.unity
