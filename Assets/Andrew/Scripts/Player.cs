@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
         inputDir = transform.TransformDirection(inputDir);
         // If input exceeds length of 1
 
-        ControllPlayer();
+        ControlPlayer();
 
         if (inputDir.magnitude > 1f)
         {
@@ -101,7 +101,7 @@ public class Player : MonoBehaviour
         motion.y += gravity * Time.deltaTime;
         controller.Move(motion * Time.deltaTime);
     }
-    void ControllPlayer()
+    void ControlPlayer()
     {
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
