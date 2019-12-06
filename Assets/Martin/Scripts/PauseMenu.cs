@@ -54,6 +54,7 @@ public class PauseMenu : MonoBehaviour
                 pauseMenu.SetActive(false);
                 Time.timeScale = 1f;
                 isPaused = false;
+                Debug.Log("Hey looky");
             }
             else
             {
@@ -65,14 +66,15 @@ public class PauseMenu : MonoBehaviour
     }
     public void PauseQuit()
     {
-        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        PlayerPrefs.SetInt("SavedScene", currentSceneIndex);
+        //currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        //PlayerPrefs.SetInt("SavedScene", currentSceneIndex);
         Application.Quit();
     }
     public void MainMenu()
     {
-        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        PlayerPrefs.SetInt("SavedScene", currentSceneIndex);
+        //currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        //PlayerPrefs.SetInt("SavedScene", currentSceneIndex);
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
 
